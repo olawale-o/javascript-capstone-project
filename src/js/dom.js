@@ -14,7 +14,7 @@ export const toggleModal = async () => {
   main.classList.toggle('open-modal');
 };
 
-export const baseView = () => `<header class="header">
+export const baseView = (totalItems) => `<header class="header">
   <div class="container">
     <nav class="nav">
       <div class="logo">
@@ -22,7 +22,7 @@ export const baseView = () => `<header class="header">
       </div>
       <ul class="nav-list">
         <li class="nav-item">
-            <a href="#" class="nav-link">Meal <span></span></a>
+            <a href="#" class="nav-link">Meal (${totalItems})<span></span></a>
         </li>
         <li class="nav-item">
             <a href="#" class="nav-link">Categories</a>

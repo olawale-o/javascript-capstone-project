@@ -10,7 +10,7 @@ window.addEventListener('DOMContentLoaded', async () => {
   const root = document.querySelector('#root');
   const { meals } = await fectchMeals();
   const sixMeals = meals.slice(0, 6);
-  root.innerHTML = baseView();
+  root.innerHTML = baseView(sixMeals.length);
   const modal = document.querySelector('#modal-overlay');
   const mealList = document.querySelector('#meal-list');
 
