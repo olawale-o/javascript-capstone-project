@@ -1,8 +1,12 @@
 import { createElement, createComment } from './dom.utils.js';
+import { capitalizeStr, parseDate } from './helper.js';
+import {
+  postMealComment, fetchMealSingleComment,
+} from './utils.js';
 
 const baseModal = (args) => {
   const {
-    meals, toggle, content,
+    meals, toggle, content, formContent,
   } = args;
   const {
     strMeal, strMealThumb, strCategory, strArea,
@@ -31,7 +35,7 @@ const baseModal = (args) => {
   briefDetails.append(h3, listDetails);
 
   modalBody.append(briefDetails, content);
-  modalContent.append(modalHeader, modalBody);
+  modalContent.append(modalHeader, modalBody, formContent);
   modal.append(modalContent);
 
   return modal;
@@ -39,8 +43,9 @@ const baseModal = (args) => {
 
 const createCommentModal = (args) => {
   const {
-    meals, toggle, comments,
+    meals, toggle, comments, appId,
   } = args;
+  const { idMeal } = meals[0];
   const content = createElement('div', { class: 'comments' });
   const h4 = createElement('h4');
   const counter = createElement('span', { class: 'counter' });
@@ -53,11 +58,60 @@ const createCommentModal = (args) => {
       commentList.append(createComment(comment));
     });
   }
+
+  const formContent = createElement('div', { class: 'comment-form' });
+
+  const h6 = createElement('h6');
+  h6.textContent = 'Add comment';
+
+  const form = createElement('form');
+  const nameField = createElement('div', { class: 'field' });
+  const nameInput = createElement('input', {
+    class: 'input', type: 'text', id: 'name', name: 'name', placeholder: 'Your name', required: 'required',
+  });
+  nameField.append(nameInput);
+
+  const messageField = createElement('div', { class: 'field' });
+  const messageArea = createElement('textarea', {
+    class: 'textarea', cols: 30, rows: 10, id: 'message', name: 'message', placeholder: 'Your insights', required: 'required',
+  });
+  messageField.appendChild(messageArea);
+
+  const submitField = createElement('div', { class: 'field' });
+  const submitBtn = createElement('button', { class: 'btn btn-submit' });
+  submitBtn.textContent = 'Submit';
+  form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const data = {
+      item_id: idMeal,
+      username: nameInput.value.trim(),
+      comment: messageArea.value.trim(),
+    };
+    await postMealComment(appId, data);
+    const comments = await fetchMealSingleComment(appId, idMeal);
+    counter.textContent = ` (${comments.length})`;
+    h4.appendChild(counter);
+    const lastComment = comments.pop();
+    const li = createElement('li', { class: 'comment' });
+    li.innerHTML = `<span>${parseDate(lastComment.creation_date)} 
+    ${capitalizeStr(lastComment.username)}:</span> <span>${lastComment.comment}</span>`;
+    commentList.appendChild(li);
+
+    nameInput.value = '';
+    messageArea.value = '';
+  });
+
   content.append(h4, commentList);
+  submitField.append(submitBtn);
+
+  form.append(nameField, messageField, submitField);
+  formContent.append(h6, form);
+
   return baseModal({
     meals,
     toggle,
     content,
+    formContent,
   });
 };
 
