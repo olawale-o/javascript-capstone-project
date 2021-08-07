@@ -34,10 +34,43 @@ i {
   cursor: pointer;
 }
 
+.btn {
+  outline: none;
+  border: none;
+  display: block;
+  padding: 1rem 2rem;
+  cursor: pointer;
+  color: #fff;
+  font-size: 2rem;
+}
+
+.btn:hover {
+  font-weight: 400;
+}
+
+.btn-comment {
+  width: 100%;
+  margin-bottom: 2.5rem;
+  background: #c10623;
+}
+
+.btn-reserve {
+  width: 100%;
+  background: #13df75;
+}
+
+.btn-submit {
+  background: #0256aa;
+}
+
 .root {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+}
+
+main {
+  position: relative;
 }
 
 .header {
@@ -62,6 +95,35 @@ i {
 
 .nav-link {
   font-size: 1.5rem;
+}
+
+.main-content {
+  margin-bottom: 3rem;
+  border-bottom: 2px solid #000;
+}
+
+.meals-container {
+  width: 90%;
+  margin: 0 auto 4rem;
+  padding: 2rem;
+}
+
+.meal-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 2rem;
+}
+
+.meal-img {
+  margin-bottom: 1rem;
+}
+
+.meal-name-likes {
+  font-size: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
 }
 
 .footer p {
