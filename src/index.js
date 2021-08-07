@@ -75,6 +75,7 @@ window.addEventListener('DOMContentLoaded', async () => {
       modal.appendChild(
         createCommentModal({
           meals,
+          appId,
           toggle: toggleModal,
           comments,
         }),
