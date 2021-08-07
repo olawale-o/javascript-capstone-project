@@ -32,3 +32,10 @@ export const fetchMealLikes = async (appId) => {
   const response = await get(URI);
   return response.json();
 };
+
+export const fetchMealSingleComment = async (appId, id) => {
+  const END_POINT = `apps/${appId}/comments?item_id=${id}`;
+  const URI = `${INVOLVEMENT_URI}${END_POINT}`;
+  const response = await get(URI);
+  return response.json();
+};

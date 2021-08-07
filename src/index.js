@@ -2,7 +2,7 @@ import './stylesheets/style.css';
 import { baseView, toggleModal } from './js/dom.js';
 import createCommentModal from './js/modal.js';
 import {
-  fectchMeals, fetchSingleMeal, fetchMealLikes, createApp,
+  fectchMeals, fetchSingleMeal, fetchMealLikes, createApp, fetchMealSingleComment,
 } from './js/utils.js';
 import { setStorage, getStorage } from './js/storage.js';
 
@@ -61,11 +61,13 @@ window.addEventListener('DOMContentLoaded', async () => {
 
     commentBtn.addEventListener('click', async () => {
       const { meals } = await fetchSingleMeal(idMeal);
+      const comments = await fetchMealSingleComment(appId, idMeal);
       toggleModal();
       modal.appendChild(
         createCommentModal({
           meals,
           toggle: toggleModal,
+          comments,
         }),
       );
     });

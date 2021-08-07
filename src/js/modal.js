@@ -1,8 +1,8 @@
-import { createElement } from './dom.utils.js';
+import { createElement, createComment } from './dom.utils.js';
 
 const baseModal = (args) => {
   const {
-    meals, toggle,
+    meals, toggle, content,
   } = args;
   const {
     strMeal, strMealThumb, strCategory, strArea,
@@ -30,7 +30,7 @@ const baseModal = (args) => {
   listDetails.append(mealCategory, mealArea);
   briefDetails.append(h3, listDetails);
 
-  modalBody.append(briefDetails);
+  modalBody.append(briefDetails, content);
   modalContent.append(modalHeader, modalBody);
   modal.append(modalContent);
 
@@ -38,11 +38,26 @@ const baseModal = (args) => {
 };
 
 const createCommentModal = (args) => {
-  const { meals, toggle } = args;
-
+  const {
+    meals, toggle, comments,
+  } = args;
+  const content = createElement('div', { class: 'comments' });
+  const h4 = createElement('h4');
+  const counter = createElement('span', { class: 'counter' });
+  h4.innerHTML = 'Comments ';
+  counter.textContent = ` (${comments.length || 0})`;
+  h4.appendChild(counter);
+  const commentList = createElement('ul', { class: 'comments-list' });
+  if (comments.length > 0) {
+    comments.forEach((comment) => {
+      commentList.append(createComment(comment));
+    });
+  }
+  content.append(h4, commentList);
   return baseModal({
     meals,
     toggle,
+    content,
   });
 };
 
