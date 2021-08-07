@@ -1,6 +1,20 @@
 import Logo from '../assets/logo.png';
 
-const baseView = () => `<header class="header">
+const modal = document.querySelector('#modal-overlay');
+const body = document.querySelector('body');
+const main = document.querySelector('main');
+
+export const toggleModal = async () => {
+  if (body.style.overflow === '') {
+    body.style.overflow = 'hidden';
+  } else {
+    body.style.overflow = '';
+    modal.innerHTML = '';
+  }
+  main.classList.toggle('open-modal');
+};
+
+export const baseView = () => `<header class="header">
   <div class="container">
     <nav class="nav">
       <div class="logo">
@@ -31,5 +45,3 @@ const baseView = () => `<header class="header">
     <p>Created by Microverse under CC License</p>
 </div>
 `;
-
-export default baseView;
