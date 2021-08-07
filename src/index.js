@@ -2,7 +2,7 @@ import './stylesheets/style.css';
 import { baseView, toggleModal } from './js/dom.js';
 import createCommentModal from './js/modal.js';
 import {
-  fectchMeals, fetchSingleMeal, fetchMealLikes, createApp, fetchMealSingleComment,
+  fectchMeals, fetchSingleMeal, fetchMealLikes, createApp, fetchMealSingleComment, likeMeal,
 } from './js/utils.js';
 import { setStorage, getStorage } from './js/storage.js';
 
@@ -23,6 +23,13 @@ window.addEventListener('DOMContentLoaded', async () => {
     appId = getStorage();
     mealLikes = await fetchMealLikes(appId);
   }
+
+  const handleLike = async (id) => {
+    await likeMeal(id, appId);
+    const results = await fetchMealLikes(appId);
+    const { likes } = results.find((meal) => id === meal.item_id);
+    return likes;
+  };
 
   const createMealElement = ({ idMeal, strMeal, strMealThumb }) => {
     const li = document.createElement('li');
@@ -49,6 +56,8 @@ window.addEventListener('DOMContentLoaded', async () => {
     const heartIcon = document.createElement('i');
     heartIcon.setAttribute('class', 'bx bx-heart');
     heartIcon.addEventListener('click', async () => {
+      const currentMealLikes = await handleLike(idMeal);
+      likeSpan.textContent = currentMealLikes;
     });
 
     likeDiv.append(likeSpan, heartIcon);
