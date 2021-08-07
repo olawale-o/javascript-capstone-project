@@ -1,6 +1,7 @@
 import './stylesheets/style.css';
+import baseView from './js/dom.js';
 
-window.addEventListener('DOMContentLoaded', () => {
+window.addEventListener('DOMContentLoaded', async () => {
   const root = document.querySelector('#root');
-  root.textContent = 'Webpack Starter';
+  root.innerHTML = baseView();
 });
