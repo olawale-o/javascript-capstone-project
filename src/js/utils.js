@@ -45,3 +45,9 @@ export const likeMeal = async (id, appId) => {
   const URI = `${INVOLVEMENT_URI}${END_POINT}`;
   await post(URI, { item_id: id });
 };
+
+export const postMealComment = async (appId, data) => {
+  const END_POINT = `apps/${appId}/comments/`;
+  const URI = `${INVOLVEMENT_URI}${END_POINT}`;
+  await post(URI, data);
+};
