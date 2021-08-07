@@ -5,3 +5,35 @@
   margin: 0;
   box-sizing: border-box;
 }
+
+html {
+  font-size: 10px;
+}
+
+body {
+  font-size: 62.5%;
+  font-family: 'Poppins', sans-serif;
+}
+
+li {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  object-fit: cover;
+}
+
+i {
+  cursor: pointer;
+}
+
+.root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
