@@ -20,6 +20,9 @@ const baseView = () => `<header class="header">
     </nav>
   </div>
 </header>
+<div class="footer">
+    <p>Created by Microverse under CC License</p>
+</div>
 `;
 
 export default baseView;
