@@ -1,7 +1,10 @@
 import './stylesheets/style.css';
 import { baseView, toggleModal } from './js/dom.js';
 import createCommentModal from './js/modal.js';
-import { fectchMeals, fetchSingleMeal } from './js/utils.js';
+import {
+  fectchMeals, fetchSingleMeal, fetchMealLikes, createApp,
+} from './js/utils.js';
+import { setStorage, getStorage } from './js/storage.js';
 
 window.addEventListener('DOMContentLoaded', async () => {
   const root = document.querySelector('#root');
@@ -10,6 +13,16 @@ window.addEventListener('DOMContentLoaded', async () => {
   root.innerHTML = baseView();
   const modal = document.querySelector('#modal-overlay');
   const mealList = document.querySelector('#meal-list');
+
+  let appId = '';
+  let mealLikes = [];
+  if (!getStorage()) {
+    appId = await createApp();
+    setStorage(appId);
+  } else {
+    appId = getStorage();
+    mealLikes = await fetchMealLikes(appId);
+  }
 
   const createMealElement = ({ idMeal, strMeal, strMealThumb }) => {
     const li = document.createElement('li');
@@ -67,5 +80,11 @@ window.addEventListener('DOMContentLoaded', async () => {
 
   sixMeals.forEach((meal) => {
     mealList.appendChild(createMealElement(meal));
+  });
+
+  mealLikes.forEach((mealLike) => {
+    const selectedMeal = document.querySelector(`#meal-item-${mealLike.item_id}`);
+    const likeSpan = selectedMeal.querySelector(`#like-${mealLike.item_id}`);
+    likeSpan.textContent = mealLike.likes;
   });
 });
