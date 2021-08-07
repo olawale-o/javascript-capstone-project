@@ -1,12 +1,14 @@
 import './stylesheets/style.css';
-import baseView from './js/dom.js';
-import fectchMeals from './js/utils.js';
+import { baseView, toggleModal } from './js/dom.js';
+import createCommentModal from './js/modal.js';
+import { fectchMeals, fetchSingleMeal } from './js/utils.js';
 
 window.addEventListener('DOMContentLoaded', async () => {
   const root = document.querySelector('#root');
   const { meals } = await fectchMeals();
   const sixMeals = meals.slice(0, 6);
   root.innerHTML = baseView();
+  const modal = document.querySelector('#modal-overlay');
   const mealList = document.querySelector('#meal-list');
 
   const createMealElement = ({ idMeal, strMeal, strMealThumb }) => {
@@ -44,7 +46,16 @@ window.addEventListener('DOMContentLoaded', async () => {
     reservationBtn.setAttribute('class', 'btn btn-reserve');
     reservationBtn.textContent = 'Reservations';
 
-    commentBtn.addEventListener('click', async () => {});
+    commentBtn.addEventListener('click', async () => {
+      const { meals } = await fetchSingleMeal(idMeal);
+      toggleModal();
+      modal.appendChild(
+        createCommentModal({
+          meals,
+          toggle: toggleModal,
+        }),
+      );
+    });
     reservationBtn.addEventListener('click', async () => {});
 
     imgDiv.appendChild(img);
