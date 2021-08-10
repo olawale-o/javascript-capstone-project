@@ -51,3 +51,16 @@ export const postMealComment = async (appId, data) => {
   const URI = `${INVOLVEMENT_URI}${END_POINT}`;
   await post(URI, data);
 };
+
+export const fetchMealSingleReservation = async (appId, id) => {
+  const END_POINT = `apps/${appId}/reservations?item_id=${id}`;
+  const URI = `${INVOLVEMENT_URI}${END_POINT}`;
+  const response = await get(URI);
+  return response.json();
+};
+
+export const postMealReservation = async (appId, data) => {
+  const END_POINT = `apps/${appId}/reservations/`;
+  const URI = `${INVOLVEMENT_URI}${END_POINT}`;
+  await post(URI, data);
+};
