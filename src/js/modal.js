@@ -1,4 +1,4 @@
-import { createElement, createComment } from './dom.utils.js';
+import { createElement, createComment, createReservation } from './dom.utils.js';
 import { capitalizeStr, parseDate } from './helper.js';
 import {
   postMealComment, fetchMealSingleComment,
@@ -6,7 +6,7 @@ import {
 
 const baseModal = (args) => {
   const {
-    meals, toggle, content, formContent,
+    meals, toggle, content
   } = args;
   const {
     strMeal, strMealThumb, strCategory, strArea,
@@ -35,13 +35,13 @@ const baseModal = (args) => {
   briefDetails.append(h3, listDetails);
 
   modalBody.append(briefDetails, content);
-  modalContent.append(modalHeader, modalBody, formContent);
+  modalContent.append(modalHeader, modalBody);
   modal.append(modalContent);
 
   return modal;
 };
 
-const createCommentModal = (args) => {
+export const createCommentModal = (args) => {
   const {
     meals, toggle, comments, appId,
   } = args;
@@ -115,4 +115,29 @@ const createCommentModal = (args) => {
   });
 };
 
-export default createCommentModal;
+export const createReservationModal = (args) => {
+  const {
+    meals, toggle, reservations,
+  } = args;
+
+  const content = createElement('div', { class: 'comments' });
+  const h4 = createElement('h4');
+  const counter = createElement('span', { class: 'counter' });
+  h4.innerHTML = 'Reservations ';
+  counter.textContent = ` (${reservations.length || 0})`;
+  h4.appendChild(counter);
+  const commentList = createElement('ul', { class: 'comments-list' });
+  if (reservations.length > 0) {
+    reservations.forEach((reservation) => {
+      commentList.append(createReservation(reservation));
+    });
+  }
+
+  content.append(h4, commentList);
+
+  return baseModal({
+    meals,
+    toggle,
+    content,
+  });
+};
