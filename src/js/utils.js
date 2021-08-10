@@ -58,3 +58,9 @@ export const fetchMealSingleReservation = async (appId, id) => {
   const response = await get(URI);
   return response.json();
 };
+
+export const postMealReservation = async (appId, data) => {
+  const END_POINT = `apps/${appId}/reservations/`;
+  const URI = `${INVOLVEMENT_URI}${END_POINT}`;
+  await post(URI, data);
+};
