@@ -2,7 +2,8 @@ import './stylesheets/style.css';
 import { baseView, toggleModal } from './js/dom.js';
 import { createCommentModal, createReservationModal } from './js/modal.js';
 import {
-  fectchMeals, fetchSingleMeal, fetchMealLikes, createApp, fetchMealSingleComment, likeMeal, fetchMealSingleReservation,
+  fectchMeals, fetchSingleMeal, fetchMealLikes, createApp, fetchMealSingleComment, likeMeal,
+  fetchMealSingleReservation,
 } from './js/utils.js';
 import { setStorage, getStorage } from './js/storage.js';
 

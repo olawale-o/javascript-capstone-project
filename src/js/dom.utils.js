@@ -22,4 +22,3 @@ export const createReservation = (reservation) => {
   ${parseDate(reservation.date_end)}  by  </span> <span>${reservation.username}</span>`;
   return li;
 };
-

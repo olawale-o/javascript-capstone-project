@@ -6,7 +6,7 @@ import {
 
 const baseModal = (args) => {
   const {
-    meals, toggle, content
+    meals, toggle, content,
   } = args;
   const {
     strMeal, strMealThumb, strCategory, strArea,
