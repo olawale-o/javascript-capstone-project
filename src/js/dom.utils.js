@@ -15,3 +15,10 @@ export const createComment = (comment) => {
   ${capitalizeStr(comment.username)}:</span> <span>${comment.comment}</span>`;
   return li;
 };
+
+export const createReservation = (reservation) => {
+  const li = createElement('li', { class: 'comment' });
+  li.innerHTML = `<span>${parseDate(reservation.date_start)} -
+  ${parseDate(reservation.date_end)}  by  </span> <span>${reservation.username}</span>`;
+  return li;
+};
