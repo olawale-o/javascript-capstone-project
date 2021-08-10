@@ -1,12 +1,12 @@
 import { createElement, createComment, createReservation } from './dom.utils.js';
 import { capitalizeStr, parseDate } from './helper.js';
 import {
-  postMealComment, fetchMealSingleComment,
+  postMealComment, fetchMealSingleComment, postMealReservation, fetchMealSingleReservation,
 } from './utils.js';
 
 const baseModal = (args) => {
   const {
-    meals, toggle, content,
+    meals, toggle, content, formContent,
   } = args;
   const {
     strMeal, strMealThumb, strCategory, strArea,
@@ -35,7 +35,7 @@ const baseModal = (args) => {
   briefDetails.append(h3, listDetails);
 
   modalBody.append(briefDetails, content);
-  modalContent.append(modalHeader, modalBody);
+  modalContent.append(modalHeader, modalBody, formContent);
   modal.append(modalContent);
 
   return modal;
@@ -117,9 +117,9 @@ export const createCommentModal = (args) => {
 
 export const createReservationModal = (args) => {
   const {
-    meals, toggle, reservations,
+    meals, toggle, reservations, appId,
   } = args;
-
+  const { idMeal } = meals[0];
   const content = createElement('div', { class: 'comments' });
   const h4 = createElement('h4');
   const counter = createElement('span', { class: 'counter' });
@@ -133,11 +133,66 @@ export const createReservationModal = (args) => {
     });
   }
 
+  const formContent = createElement('div', { class: 'comment-form' });
+
+  const h6 = createElement('h6');
+  h6.textContent = 'Add a reservation';
+
+  const form = createElement('form');
+  const nameField = createElement('div', { class: 'field' });
+  const nameInput = createElement('input', {
+    class: 'input', type: 'text', id: 'name', name: 'name', placeholder: 'Your name', required: 'required',
+  });
+  nameField.append(nameInput);
+
+  const startDateField = createElement('div', { class: 'field' });
+  const startDateInput = createElement('input', {
+    class: 'input', type: 'text', id: 'start-date', name: 'start-date', placeholder: 'Start date', required: 'required',
+  });
+  startDateField.append(startDateInput);
+
+  const endDateField = createElement('div', { class: 'field' });
+  const endDateInput = createElement('input', {
+    class: 'input', type: 'text', id: 'end-date', name: 'end-date', placeholder: 'End date', required: 'required',
+  });
+  endDateField.append(endDateInput);
+
+  const submitField = createElement('div', { class: 'field' });
+  const submitBtn = createElement('button', { class: 'btn btn-submit' });
+  submitBtn.textContent = 'Submit';
+  form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const data = {
+      item_id: idMeal,
+      username: nameInput.value.trim(),
+      date_start: startDateInput.value.trim(),
+      date_end: endDateInput.value.trim(),
+    };
+    await postMealReservation(appId, data);
+    const reservations = await fetchMealSingleReservation(appId, idMeal);
+    counter.textContent = ` (${reservations.length})`;
+    h4.appendChild(counter);
+    const lastReservation = reservations.pop();
+    const li = createElement('li', { class: 'comment' });
+    li.innerHTML = `<span>${parseDate(lastReservation.date_start)} -
+    ${parseDate(lastReservation.date_end)}  by  </span> <span>${lastReservation.username}</span>`;
+    commentList.appendChild(li);
+
+    nameInput.value = '';
+    startDateInput.value = '';
+    endDateInput.value = '';
+  });
+
   content.append(h4, commentList);
+  submitField.append(submitBtn);
+
+  form.append(nameField, startDateField, endDateField, submitField);
+  formContent.append(h6, form);
 
   return baseModal({
     meals,
     toggle,
     content,
+    formContent,
   });
 };
