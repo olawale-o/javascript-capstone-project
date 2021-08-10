@@ -89,6 +89,7 @@ window.addEventListener('DOMContentLoaded', async () => {
       modal.appendChild(
         createReservationModal({
           meals,
+          appId,
           toggle: toggleModal,
           reservations,
         }),
