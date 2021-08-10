@@ -18,8 +18,8 @@ export const createComment = (comment) => {
 
 export const createReservation = (reservation) => {
   const li = createElement('li', { class: 'comment' });
-  li.innerHTML = `<span>${parseDate(lastReservation.date_start)} -
-  ${parseDate(lastReservation.date_end)}  by  </span> <span>${lastReservation.username}</span>`;
+  li.innerHTML = `<span>${parseDate(reservation.date_start)} -
+  ${parseDate(reservation.date_end)}  by  </span> <span>${reservation.username}</span>`;
   return li;
 };
 
