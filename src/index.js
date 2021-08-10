@@ -1,8 +1,8 @@
 import './stylesheets/style.css';
 import { baseView, toggleModal } from './js/dom.js';
-import createCommentModal from './js/modal.js';
+import { createCommentModal, createReservationModal } from './js/modal.js';
 import {
-  fectchMeals, fetchSingleMeal, fetchMealLikes, createApp, fetchMealSingleComment, likeMeal,
+  fectchMeals, fetchSingleMeal, fetchMealLikes, createApp, fetchMealSingleComment, likeMeal, fetchMealSingleReservation,
 } from './js/utils.js';
 import { setStorage, getStorage } from './js/storage.js';
 
@@ -81,7 +81,18 @@ window.addEventListener('DOMContentLoaded', async () => {
         }),
       );
     });
-    reservationBtn.addEventListener('click', async () => {});
+    reservationBtn.addEventListener('click', async () => {
+      const { meals } = await fetchSingleMeal(idMeal);
+      const reservations = await fetchMealSingleReservation(appId, idMeal);
+      toggleModal();
+      modal.appendChild(
+        createReservationModal({
+          meals,
+          toggle: toggleModal,
+          reservations,
+        }),
+      );
+    });
 
     imgDiv.appendChild(img);
     nameLikeDiv.append(spanName, likeDiv);
